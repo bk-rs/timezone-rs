@@ -22,7 +22,7 @@ where
     D: Deserializer<'de>,
 {
     let secs = i32::deserialize(deserializer)?;
-    FixedOffset::east_opt(secs).ok_or_else(|| de::Error::custom(format!("Invalid [{}]", secs)))
+    FixedOffset::east_opt(secs).ok_or_else(|| de::Error::custom(format!("Invalid [{secs}]")))
 }
 
 fn dst_deserialize<'de, D>(deserializer: D) -> Result<bool, D::Error>
@@ -32,6 +32,6 @@ where
     match u8::deserialize(deserializer)? {
         0 => Ok(false),
         1 => Ok(true),
-        n => Err(de::Error::custom(format!("Invalid [{}]", n))),
+        n => Err(de::Error::custom(format!("Invalid [{n}]"))),
     }
 }
